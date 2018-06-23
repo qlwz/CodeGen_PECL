@@ -168,13 +168,19 @@ class CodeGen_PECL_Element_ClassConstant
 
         switch ($this->type) {
         case "string":
-            $code.= "        zend_declare_class_constant_stringl($classptr, $key, $key_len, \"{$this->value}\", ".strlen($this->value)." TSRMLS_CC );\n";
+            $code.= "        zend_declare_class_constant_stringl($classptr, $key, $key_len, \"{$this->value}\", ".strlen($this->value)." TSRMLS_CC );";
+            $this->desc && $code.= "/* {$this->desc} */";
+            $code.= "\n";
             break;
         case "int":
-            $code.= "        zend_declare_class_constant_long($classptr, $key, $key_len, {$this->value} TSRMLS_CC );\n";
+            $code.= "        zend_declare_class_constant_long($classptr, $key, $key_len, {$this->value} TSRMLS_CC );";
+            $this->desc && $code.= "/* {$this->desc} */";
+            $code.= "\n";
             break;
         case "float":
-            $code.= "        zend_declare_class_constant_double($classptr, $key, $key_len, {$this->value} TSRMLS_CC );\n";
+            $code.= "        zend_declare_class_constant_double($classptr, $key, $key_len, {$this->value} TSRMLS_CC );";
+            $this->desc && $code.= "/* {$this->desc} */";
+            $code.= "\n";
             break;
         default:
             return "";

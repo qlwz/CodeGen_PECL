@@ -180,6 +180,27 @@ class CodeGen_PECL_Element_Method
      */
     protected function parseParameterHook($argString, $argPointers, &$count)
     {
+        if ($this->isStatic) {
+            $count = count($this->params) - 1;
+
+            if ($this->varargs) {
+                $argc = sprintf("MIN(ZEND_NUM_ARGS(), %d)", $count);
+            } else if ($count > 0) {
+                $argc = "ZEND_NUM_ARGS()";
+            }
+
+            if (isset($argc)) {
+                $parse_call = "zend_parse_parameters($argc TSRMLS_CC, \"$argString\", ".join(", ", $argPointers).")";
+            } else {
+                $parse_call = "zend_parse_parameters_none()";
+            }
+
+            return "    if ($parse_call == FAILURE) {
+        return;
+    }
+    ";
+        }
+
         $count = count($this->params) - 1;
 
         if ($this->varargs) {
@@ -217,8 +238,9 @@ class CodeGen_PECL_Element_Method
     function localVariables($extension)
     {
         $code = parent::localVariables($extension);
-        $code.= "    zend_class_entry * _this_ce;\n";
-
+        if (!$this->isStatic) {
+            $code.= "    zend_class_entry * _this_ce;\n";
+        }
         if ($this->name == "__construct") {
             $code.= "    zval * _this_zval;\n";
         }
@@ -245,7 +267,7 @@ class CodeGen_PECL_Element_Method
             return $err;
         }
 
-        if ($this->name != "__construct") {
+        if ($this->name != "__construct" && !$this->isStatic) {
             $param            = array();
             $param['name']    = "_this_zval";
             $param['type']    = "object";

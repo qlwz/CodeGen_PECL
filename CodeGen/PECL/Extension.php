@@ -1694,6 +1694,8 @@ PHP_MINFO_FUNCTION({$this->name})
             echo CodeGen_PECL_Element_Resource::cCodeFooter($this->name);
         }
 
+        echo $this->generateGlobalsC();
+
         echo $this->generateInterfaceRegistrations();
 
         echo $this->generateClassRegistrations();
@@ -1701,8 +1703,6 @@ PHP_MINFO_FUNCTION({$this->name})
         echo $this->generateFunctionRegistrations();
 
         echo $this->generateExtensionEntry();
-
-        echo $this->generateGlobalsC();
 
         echo $this->internalFunctionsC();
 

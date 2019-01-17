@@ -1076,7 +1076,7 @@ class CodeGen_PECL_Element_Function
                     case "string":
                         $argString    .= "s";
                         $default       = $this->defaultval($param, "NULL");
-                        $var_decl     .= "    const char * $name = $default;\n";
+                        $var_decl     .= "    char * $name = $default;\n";
                         $var_decl     .= sprintf("    int {$name}_len = %d;\n",
                                                  $default==="NULL" ? 0 : strlen($default) - 2);
                         $argPointers[] = "&{$name}_len";
@@ -1085,7 +1085,7 @@ class CodeGen_PECL_Element_Function
                     case "unicode":
                         $argString    .= "u";
                         $default       = $this->defaultval($param, "NULL");
-                        $var_decl     .= "    const char * $name = $default;\n";
+                        $var_decl     .= "    char * $name = $default;\n";
                         $var_decl     .= sprintf("    int {$name}_len = %d;\n",
                                                  $default==="NULL" ? 0 : strlen($default) - 2);
                         $argPointers[] = "&{$name}_len";
@@ -1094,7 +1094,7 @@ class CodeGen_PECL_Element_Function
                     case "text":
                         $argString    .= "t";
                         $default       = $this->defaultval($param, "NULL");
-                        $var_decl     .= "    const char * $name = $default;\n";
+                        $var_decl     .= "    char * $name = $default;\n";
                         $var_decl     .= sprintf("    int {$name}_len  = %d;\n",
                                                  $default==="NULL" ? 0 : strlen($default) - 2);
                         $var_decl     .= "    int {$name}_type = IS_STRING;\n"; // TODO depends on input encoding

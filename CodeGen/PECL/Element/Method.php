@@ -470,7 +470,9 @@ class CodeGen_PECL_Element_Method
      */
     function argInfoCode($params)
     {
-        array_shift($params);
+        if (!$this->isStatic) {
+            array_shift($params);
+        }
         return parent::argInfoCode($params);
     }
 

@@ -1296,6 +1296,7 @@ class CodeGen_PECL_Element_Function
             }
 
             if ($this->code) {
+                $linedef = '';
                 if ($extension->getLinespecs()) {
                     // generate #line preprocessor directive
                     if ($this->codeLine) {

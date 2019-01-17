@@ -181,7 +181,7 @@ class CodeGen_PECL_Element_Method
     protected function parseParameterHook($argString, $argPointers, &$count)
     {
         if ($this->isStatic) {
-            $count = count($this->params) - 1;
+            $count = count($this->params);
 
             if ($this->varargs) {
                 $argc = sprintf("MIN(ZEND_NUM_ARGS(), %d)", $count);
